@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 public class Solve {
-    public Node root;
     public SuperNode superRoot;
     public int lineLength=0;
     public int workspaceLength=0;
@@ -22,11 +21,13 @@ public class Solve {
             System.exit(0);
         }
         CalculateWorkspaceSize();
-        superRoot = new SuperNode(initialState.get(0));
+        superRoot = new SuperNode(initialState.get(0),0,0);
         SuperNode temp = superRoot;
         for(int i=1;i<lineLength;++i){
-            SuperNode child = new SuperNode(initialState.get(i));
-            child.parent = temp;
+            SuperNode child = new SuperNode(initialState.get(i),0,i);
+            temp.innerNode.get(0).children.add(child.innerNode.get(0));// link the parent-child relationship between the nodes
+            child.innerNode.get(0).parent = temp.innerNode.get(0);
+            child.parent = temp;// link the parent-child relationship between the supernodes,
             temp.children.add(child);
             temp = child;
         }
@@ -62,9 +63,20 @@ public class Solve {
         Collections.reverse(initialState);
         Collections.reverse(finalState);
     }
-    
+
+    public void ConstructTree(){
+        SuperNode superLeaf = findSuperLeaf();
+
+    }
+    private SuperNode findSuperLeaf(){
+        SuperNode temp = superRoot;
+        while(temp.children.size()!=0){
+            temp = temp.children.get(0);
+        }
+        return temp;
+    }
     public static void main(String args[]){
         Solve problem = new Solve();
-
+        problem.ConstructTree();
     }
 }
