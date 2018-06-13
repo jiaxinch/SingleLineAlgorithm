@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Vector;
 
 public class Solve {
@@ -25,6 +26,7 @@ public class Solve {
         SuperNode temp = superRoot;
         for(int i=1;i<lineLength;++i){
             SuperNode child = new SuperNode(initialState.get(i));
+            child.parent = temp;
             temp.children.add(child);
             temp = child;
         }
@@ -49,8 +51,16 @@ public class Solve {
             finalMin = initialMin;
         }
         topBorder = finalMin;
-        workspaceLength =bottomBorder-topBorder+1;
-        workspaceXOffset = -1*topBorder;
+        workspaceLength =bottomBorder-topBorder+1+1;
+        workspaceXOffset = -1*topBorder+1;
+        Collections.reverse(initialState);
+        Collections.reverse(finalState);
+        for(int i =0;i<workspaceXOffset;++i){
+            initialState.add(0);
+            finalState.add(0);
+        }
+        Collections.reverse(initialState);
+        Collections.reverse(finalState);
     }
     
     public static void main(String args[]){
