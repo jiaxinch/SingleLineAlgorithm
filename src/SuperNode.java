@@ -21,4 +21,7 @@ public class SuperNode{
         children = new Vector<SuperNode>();
         innerNode.add(new Node(value,xCord,yCord));
     }
+    public void AddInnerNode(int value){
+        innerNode.add(new Node(value, xCord,yCord));
+    }
 }

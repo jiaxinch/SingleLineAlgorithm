@@ -27,6 +27,12 @@ public class Solve {
             SuperNode child = new SuperNode(initialState.get(i),0,i);
             temp.innerNode.get(0).children.add(child.innerNode.get(0));// link the parent-child relationship between the nodes
             child.innerNode.get(0).parent = temp.innerNode.get(0);
+            //add final state Node to the tree
+            child.AddInnerNode(finalState.get(i));
+//            if(temp.innerNode.size()==1){// then this node is the superRoot, which means it is the reservoir
+//                temp.innerNode.get(0).children.add(child.innerNode.get(1));
+//                child.innerNode.get(1).parent =temp.innerNode.get(0);
+//            }
             child.parent = temp;// link the parent-child relationship between the supernodes,
             temp.children.add(child);
             temp = child;
@@ -66,7 +72,21 @@ public class Solve {
 
     public void ConstructTree(){
         SuperNode superLeaf = findSuperLeaf();
+        int index = superLeaf.yCord;
+        while(finalState.get(index)==superLeaf.innerNode.get(0).value){
+            if(superLeaf.parent!=null){
+                superLeaf=superLeaf.parent;
+            }
+            else{
+                System.out.println("the initial state and the final state have the same configuration");
+                System.exit(0);
+            }
+        }
+        // here superleaf is the first element that differs between two configuration.
+        SuperNode currentSuperNode = superLeaf;
+        while(currentSuperNode.parent!=null){
 
+        }
     }
     private SuperNode findSuperLeaf(){
         SuperNode temp = superRoot;
